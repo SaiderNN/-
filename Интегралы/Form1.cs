@@ -33,16 +33,16 @@ namespace Интегралы
             Double.TryParse(e_text.Text, out e);
             Double.TryParse(a_text.Text, out a);
             Double.TryParse(b_text.Text, out b);
-            h = Math.Pow(e, 0.25);
-        
-            int n = Convert.ToInt32(Math.Ceiling((b - a) / h));
-            while(n % 4 != 0)
+            //h = Math.Pow(e, 0.25);
+
+            int n = 4;
+           /* while(n % 4 != 0)
             {
                 n += 1;
             }
-            n_text.Text = n.ToString();
+            */
             h = (b - a) / n;
-            step_text.Text = h.ToString();
+         
             List<double> xn = new List<double>();
           
             xn.Add(a);
@@ -53,24 +53,42 @@ namespace Интегралы
 
 
 
-            double simp1, simp2, rect1, rect2, new_step;
-            new_step = h;
+            double simp1, simp2, rect1, rect2;
+       
             int count = 1;
-            simp1 = Simpson(new_step, n, xn);
-            simp2 = Simpson(2 * new_step, n, xn);
+            simp1 = Simpson(h, n, xn);
+           
             simps.Items.Add("Кол-во шагов: " + (n).ToString() + ". Результат: " + simp1.ToString());
-            simps.Items.Add("Кол-во шагов: " + (n / 2).ToString() + ". Результат: " + simp2.ToString());
-            rect1 = Rectangles(new_step, n, xn);
-            rectangles.Items.Add("Кол-во шагов: " + (n).ToString() + ". Результат: " + rect1.ToString());
+
+            n *= 2;
+            h = (b - a) / n;
+            xn.Clear();
+            xn.Add(a);
+            while (xn.Count != n + 1)
+            {
+                xn.Add(xn[xn.Count - 1] + h);
+            }
+            simp2 = Simpson(h, n, xn);
+            simps.Items.Add("Кол-во шагов: " + (n).ToString() + ". Результат: " + simp2.ToString());
+
             while (Math.Abs(simp1 - simp2)/15 > e) 
             {
+                n *=2;
+                h = (b - a) / n;
+                xn.Clear();
+                xn.Add(a);
+                while (xn.Count != n + 1)
+                {
+                    xn.Add(xn[xn.Count - 1] + h);
+                }
                 simp1 = simp2;
-                new_step *= 2;
-                count += 1;
-                simp2 = Simpson(2 * new_step, n, xn);
-                simps.Items.Add("Кол-во шагов: " + (n / Math.Pow(2, count)).ToString() + ". Результат: " + simp2.ToString());
+                simp2 = Simpson(h, n, xn);
+                simps.Items.Add("Кол-во шагов: " + (n).ToString() + ". Результат: " + simp2.ToString());
             }
-          
+            rect1 = Rectangles(h, n, xn);
+            rectangles.Items.Add("Кол-во шагов: " + (n).ToString() + ". Результат: " + rect1.ToString());
+            n_text.Text = n.ToString();
+            step_text.Text = h.ToString();
             simps.Items.Add("Достигнута заданная точность");
             
         }
@@ -95,13 +113,11 @@ namespace Интегралы
             for(int i = 1; i < n; i++)
             {
   
-                if (Math.Round(xn[i],2) == Math.Round(check, 2)) 
-                {
-                    check += h;
+             
                     if (even_or_not) { even += y[i]; even_or_not = false; continue; }
                     else { odd += y[i]; even_or_not = true; continue; }
-                }
-                else { continue; }
+               
+               
             }
 
 

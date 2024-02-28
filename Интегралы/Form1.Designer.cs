@@ -199,11 +199,11 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(387, 34);
+            this.label9.Location = new System.Drawing.Point(378, 34);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(127, 13);
+            this.label9.Size = new System.Drawing.Size(141, 13);
             this.label9.TabIndex = 18;
-            this.label9.Text = "Начальные параметры:";
+            this.label9.Text = "Оптимальные параметры:";
             // 
             // Form1
             // 
